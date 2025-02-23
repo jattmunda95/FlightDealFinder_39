@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=MEL&destinationLocationCode=YVR&departureDate=2025-02-22&adults=1&maxPrice=2000&currencyCode=AUD&returnDate=2025-03-17"
+    }
+  },
+  "data": [
+    {
+      "type": "flight-offer",
+      "id": "1",
+      "source": "GDS",
+      "instantTicketingRequired": false,
+      "nonHomogeneous": false,
+      "oneWay": false,
+      "isUpsellOffer": false,
+      "lastTicketingDate": "2025-02-16",
+      "lastTicketingDateTime": "2025-02-16",
+      "numberOfBookableSeats": 4,
+      "itineraries": [
+        {
+          "duration": "PT22H35M",
+          "segments": [
+            {
+              "departure": {
+                "iataCode": "MEL",
+                "terminal": "2",
+                "at": "2025-02-22T07:20:00"
+              },
+              "arrival": {
+                "iataCode": "NRT",
+                "terminal": "2",
+                "at": "2025-02-22T15:15:00"
+              },
+              "carrierCode": "JL",
+              "number": "774",
+              "aircraft": {
+                "code": "789"
+              },
+              "operating": {
+                "carrierCode": "JL"
+              },
+              "duration": "PT9H55M",
+              "id": "1",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            },
+            {
+              "departure": {
+                "iataCode": "NRT",
+                "terminal": "2",
+                "at": "2025-02-22T18:40:00"
+              },
+              "arrival": {
+                "iataCode": "YVR",
+                "terminal": "M",
+                "at": "2025-02-22T10:55:00"
+              },
+              "carrierCode": "JL",
+              "number": "18",
+              "aircraft": {
+                "code": "767"
+              },
+              "operating": {
+                "carrierCode": "JL"
+              },
+              "duration": "PT9H15M",
+              "id": "2",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            }
+          ]
+        },
+        {
+          "duration": "PT22H",
+          "segments": [
+            {
+              "departure": {
+                "iataCode": "YVR",
+                "terminal": "M",
+                "at": "2025-03-17T13:40:00"
+              },
+              "arrival": {
+                "iataCode": "NRT",
+                "terminal": "2",
+                "at": "2025-03-18T16:30:00"
+              },
+              "carrierCode": "JL",
+              "number": "17",
+              "aircraft": {
+                "code": "767"
+              },
+              "operating": {
+                "carrierCode": "JL"
+              },
+              "duration": "PT10H50M",
+              "id": "3",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            },
+            {
+              "departure": {
+                "iataCode": "NRT",
+                "terminal": "2",
+                "at": "2025-03-18T17:40:00"
+              },
+              "arrival": {
+                "iataCode": "MEL",
+                "terminal": "2",
+                "at": "2025-03-19T05:40:00"
+              },
+              "carrierCode": "JL",
+              "number": "773",
+              "aircraft": {
+                "code": "789"
+              },
+              "operating": {
+                "carrierCode": "JL"
+              },
+              "duration": "PT10H",
+              "id": "4",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            }
+          ]
+        }
+      ],
+      "price": {
+        "currency": "AUD",
+        "total": "1349.50",
+        "base": "600.00",
+        "fees": [
+          {
+            "amount": "0.00",
+            "type": "SUPPLIER"
+          },
+          {
+            "amount": "0.00",
+            "type": "TICKETING"
+          }
+        ],
+        "grandTotal": "1349.50"
+      },
+      "pricingOptions": {
+        "fareType": [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly": true
+      },
+      "validatingAirlineCodes": [
+        "JL"
+      ],
+      "travelerPricings": [
+        {
+          "travelerId": "1",
+          "fareOption": "STANDARD",
+          "travelerType": "ADULT",
+          "price": {
+            "currency": "AUD",
+            "total": "1349.50",
+            "base": "600.00"
+          },
+          "fareDetailsBySegment": [
+            {
+              "segmentId": "1",
+              "cabin": "ECONOMY",
+              "fareBasis": "ONN0NOCE",
+              "class": "O",
+              "includedCheckedBags": {
+                "quantity": 2
+              }
+            },
+            {
+              "segmentId": "2",
+              "cabin": "ECONOMY",
+              "fareBasis": "ONN0NOCE",
+              "class": "O",
+              "includedCheckedBags": {
+                "quantity": 2
+              }
+            },
+            {
+              "segmentId": "3",
+              "cabin": "ECONOMY",
+              "fareBasis": "ONN0NOCE",
+              "class": "O",
+              "includedCheckedBags": {
+                "quantity": 2
+              }
+            },
+            {
+              "segmentId": "4",
+              "cabin": "ECONOMY",
+              "fareBasis": "ONN0NOCE",
+              "class": "O",
+              "includedCheckedBags": {
+                "quantity": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dictionaries": {
+    "locations": {
+      "NRT": {
+        "cityCode": "TYO",
+        "countryCode": "JP"
+      },
+      "YVR": {
+        "cityCode": "YVR",
+        "countryCode": "CA"
+      },
+      "MEL": {
+        "cityCode": "MEL",
+        "countryCode": "AU"
+      }
+    },
+    "aircraft": {
+      "789": "BOEING 787-9",
+      "767": "BOEING 767"
+    },
+    "currencies": {
+      "AUD": "AUSTRALIAN DLR"
+    },
+    "carriers": {
+      "JL": "JAPAN AIRLINES"
+    }
+  }
+}
