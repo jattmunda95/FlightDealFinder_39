@@ -11,13 +11,19 @@ class FlightSearch:
 
 
     def __init__(self):
+
+        # Initialization of All Environment Variables
         self._ama_api_key = os.environ.get('AMADEUS_API_KEY')
         self._ama_api_secret = os.environ.get('AMADEUS_API_SECRET')
-        self._twilio_sid = 'AC59b4ff14eb55c816546ed67b30666c55'
+        self._twilio_sid = os.environ.get('TWILIO_SID')
         self._twilio_auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-        self._twilio_phone_number = '+14172442201'
+        self._twilio_phone_number = os.environ.get('TWILIO_PHONE_NUMBER')
+
+        # API Endpoints
         self._city_search_lnk = 'https://test.api.amadeus.com/v1/reference-data/locations'
         self._deal_search_lnk = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
+
+        # Empty variables for later population
         self.token = ''
         self.itinerary = []
 
@@ -25,16 +31,20 @@ class FlightSearch:
         # print(access_token)
 
     def get_token(self):
+
+        # AUTHORIZATION HEADER FOR AMADEUS API TOKEN REQUEST
         token_header = {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
 
+        # AUTHORIZATION PARAMETERS FOR AMADEUS API TOKEN REQUEST
         token_params = {
             'grant_type': 'client_credentials',
             'client_id': self._ama_api_key,
             'client_secret': self._ama_api_secret
         }
 
+        # RESPONSE FROM AMADEUS API WITH TOKEN/SECRET
         access_token_resp = requests.post('https://test.api.amadeus.com/v1/security/oauth2/token', data=token_params,
                                           headers=token_header).json()
         self.token = access_token_resp['access_token']
