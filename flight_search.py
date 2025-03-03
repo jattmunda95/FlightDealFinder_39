@@ -31,7 +31,10 @@ class FlightSearch:
         # print(access_token)
 
     def get_token(self):
-
+        """
+        Gets Amadeus API token on run and then stores it in a class variable `token`.
+        :return: None
+        """
         # AUTHORIZATION HEADER FOR AMADEUS API TOKEN REQUEST
         token_header = {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,18 +51,25 @@ class FlightSearch:
         access_token_resp = requests.post('https://test.api.amadeus.com/v1/security/oauth2/token', data=token_params,
                                           headers=token_header).json()
         self.token = access_token_resp['access_token']
-        # print(self.token)
+        # print(self.token) Debugging line
 
 
     def get_iata_codes(self, city_name: str) -> str:
-
+        """
+        Make request to Amadeus API, passing ti city_name and other parameters highlighted in API documentation.
+        link:
+        :param city_name: Get IATA code for `city_name`
+        :return: String of city IATA code
+        """
         self.get_token()
 
+        # REQUEST AUTHENTICATION HEADER
         city_auth_header = {
             "Authorization" : 'Bearer ' + self.token,
             # 'Content-Type': 'application/json',
         }
 
+        # SEARCH REQUEST BODY
         city_search_params = {
             'subType' : 'AIRPORT',
             'keyword' : f'{city_name}',
