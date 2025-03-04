@@ -32,7 +32,7 @@ class FlightSearch:
 
     def get_token(self):
         """
-        Gets Amadeus API token on run and then stores it in a class variable `token`.
+        Gets Amadeus API token on run and then stores it in a class variable `token` for class level used and API requests
         :return: None
         """
         # AUTHORIZATION HEADER FOR AMADEUS API TOKEN REQUEST
@@ -57,7 +57,7 @@ class FlightSearch:
     def get_iata_codes(self, city_name: str) -> str:
         """
         Make request to Amadeus API, passing ti city_name and other parameters highlighted in API documentation.
-        link:
+        link: https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search
         :param city_name: Get IATA code for `city_name`
         :return: String of city IATA code
         """
@@ -78,6 +78,7 @@ class FlightSearch:
 
         city_search_response = requests.get(self._city_search_lnk, params=city_search_params, headers=city_auth_header).json()
         # print(city_search_response)
+        # Case handling of responses from IATA Code Amadeus API
         if city_search_response['meta']['count'] == 0:
             return 'NONE'
         else:
@@ -85,13 +86,29 @@ class FlightSearch:
                 if item['subType'] == 'AIRPORT' and item['address']['cityName'] == city_name.upper():
                     return item['iataCode']
 
-    def check_deals(self, location_name: str, origin_code: str, destination_code: str, date: str, return_date: str, max_price: str, no_adults: int = 1):
+    def check_deals(self, location_name: str, origin_code: str, destination_code: str, date: str, return_date: str, max_price: str, no_adults: int = 1) -> bool:
+        """
+        Function responsible for retrieving flight offers matching criteria based on `location_name`,`origin_code`,`destination_code`, `date`, `return_date`, `max_price` and `no_adults`.
+        If data retrieval and API execution is successful, the function sends a message to a personal phone number from a Twilio phone number through the Twilio API SMS Service. If
+        execution is done fully then the function returns `True`.
+
+        :param location_name: `String` of Destination City's Name
+        :param origin_code: `String` of Departure City's Name
+        :param destination_code: 'String' of Destination Location's IATA Code
+        :param date: `String` of Departure Date
+        :param return_date: `String` of Return Date
+        :param max_price: `String` of Max Price
+        :param no_adults: `String` of No. of Adults
+        :return: Boolean to check function execution status
+        """
         self.get_token()
 
+        # API REQUEST AUTHORIZATION HEADER
         flight_search_header = {
             'Authorization': 'Bearer ' + self.token,
         }
 
+        # API REQUEST PARAMETER BODY
         flight_search_body = {
             'originLocationCode': origin_code,
             'destinationLocationCode': destination_code,
@@ -102,13 +119,22 @@ class FlightSearch:
             'returnDate' : return_date,
         }
 
+        # API REQUEST MADE
         flight_search_call = requests.get(self._deal_search_lnk, headers=flight_search_header, params=flight_search_body).json()
+
+        # Returned data parsing using dictionary syntax
         airlines = flight_search_call['dictionaries']['carriers']
         airline_list = []
+
+        #   Appending airlines to list for use in message
         for airline in airlines.values():
             airline_list.append(airline)
-        print(airlines)
-        print(flight_search_call)
+
+        # Debugging statements
+        # print(airlines)
+        # print(flight_search_call)
+
+        # Returned flights are sorted by relevance as default, hence 1st option, best option
         best_flight = flight_search_call['data'][0]
         if flight_search_call['meta']['count'] != 0:
 
@@ -119,7 +145,9 @@ class FlightSearch:
 
                 # duration = flight_itinerary[]
 
+            # Twilio Client Initialization
             client = Client(self._twilio_sid, self._twilio_auth_token)
+            # SMS Text Message Strucuture
             text_msg = (f"FROM: {date} TO: {return_date}\n "
                   f"\n"
                   f"GOING TO: {location_name}\n"
@@ -131,3 +159,5 @@ class FlightSearch:
 
             send_msg = client.messages.create(to="+61466008554", from_=self._twilio_phone_number, body=text_msg)
             return True
+        # When execution is failed or no deals are returned
+        return False
